@@ -74,11 +74,13 @@ let vm = new Vue({
                 }
                 data = JSON.stringify(data);
                wsServer.send(data);
+
                this.text="";
                this.writingstatus=false;
             }
         },
         imgLoad(e){
+            let _this = this;
             let file = this.$refs.imgload.files[0];
             var Orientation = null;
             EXIF.getData(file,function(){
@@ -170,18 +172,28 @@ let vm = new Vue({
             this.wholeview.showimg = e.target.src;
             this.wholeview.show = true;
 
+        },
+        scrollToLastElement(vm){
+            if(vm.scroll){
+                vm.scroll.refresh();
+                let toelement = vm.$refs.licontent.lastChild;
+                vm.scroll.scrollToElement(toelement,500);
+
+                console.log("scroll");
+                
+            };
         }
             
     },
-    updated(){
-        if(this.scroll){
-            this.scroll.refresh();
-            let toelement = this.$refs.licontent.lastChild;
-            this.scroll.scrollToElement(toelement,500);
+    // updated(){
+    //     if(this.scroll){
+    //         this.scroll.refresh();
+    //         let toelement = this.$refs.licontent.lastChild;
+    //         this.scroll.scrollToElement(toelement,500);
             
-        };
+    //     };
         
-    },
+    // },
     filters:{
         onlineFilter(value){
             return "("+value+")";
@@ -200,6 +212,7 @@ wsServer.onmessage = function(e){
     //console.log(vm.msgdata); 
     setTimeout(() => {
         vm.loading = false;
+        vm.scrollToLastElement(vm);
     }, 500); 
     
 }
@@ -207,4 +220,7 @@ wsServer.onmessage = function(e){
 //打开留言板
 let openboard = function(){
     vm.msgboardstatus = true;
+    setTimeout(() => {
+        vm.scrollToLastElement(vm);
+    }, 10);
 }
