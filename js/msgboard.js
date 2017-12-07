@@ -184,7 +184,7 @@ let vm = new Vue({
             };
         }
             
-    },
+    }
     // updated(){
     //     if(this.scroll){
     //         this.scroll.refresh();
@@ -194,11 +194,6 @@ let vm = new Vue({
     //     };
         
     // },
-    filters:{
-        onlineFilter(value){
-            return "("+value+")";
-        }
-    }
 });
 
 let wsServer =new WebSocket('ws://192.168.191.1:8092');
